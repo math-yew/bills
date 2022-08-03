@@ -1,75 +1,22 @@
 let adjust = "T00:00:00";
-
-let test = new Date(2022,0+1,14);
-console.log(test);
-
-// let one = new Date("2021-12-31"+adjust);
-// let two = new Date(2021,11,31);
-// let three = new Date("2021","11","31");
-// let four = Date.parse("2021-12-31"+adjust);
-// let five = Date.parse(2021,11,31);
-// let six = new Date("2021-12-31");
-// console.log(one);
-// console.log(two);
-// console.log(three);
-// console.log("one: " + one.getTime());
-// console.log("four: " + four);
-// console.log("five: " + five);
-// console.log("six: " + six.getTime());
-// console.log(Date.parse(one));
-// console.log(Date.parse(two));
-// console.log(Date.parse(three));
-// console.log(Date.parse(2021,11,31));
-// console.log(Date.parse("2021","11","31"));
-// let nextM = new Date(one.getFullYear(),one.getMonth()+1,one.getDate())
-// console.log(one);
-// console.log(nextM);
-// console.log("------------------------");
-
-
-
-// addDays(startDate);
-const budget = {
-  mileStoneDate: "2022-02-25",
-  mileStoneAmount: 1000.25,
-  bills:[
-    { name: "Key Bank CC",
-      date: "2022-01-15",
-      freq: "m",
-      amount: 15.25
-    },
-    { name: "Phone",
-      date: "2022-01-10",
-      freq: "30",
-      amount: 5.75
-    },
-    { name: "Car registration",
-      date: "2022-05-01",
-      freq: "y",
-      amount: 10.50
-    },
-    { name: "Library Fee",
-      date: "2022-05-05",
-      freq: "s",
-      amount: 31
-    }
-  ]
-}
-
-let startDate = "2022-4-28";
-let start = Date.parse(startDate);
-console.log("start: " + start);
-let endDate = "2022-5-28";
-let end = Date.parse(endDate);
-console.log("end: " + end);
+let months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 let timePeriod = [];
+let start = null;
+let end = null;
 
-
-
-for(let bill of budget.bills){
-  console.log(bill.name);
-  addBill(bill);
+function getTimePeriod(){
+  let startDate = "2022-04-27";
+  let endDate = "2022-05-28";
+  start = Date.parse(startDate + adjust);
+  end = Date.parse(endDate + adjust);
+  console.log("start: " + start);
+  console.log("end: " + end);
+  for(let bill of budget.bills){
+    addBill(bill);
+  }
 }
+getTimePeriod();
+
 
 function addBill(bill){
   switch (bill.freq){
@@ -90,7 +37,7 @@ function addBill(bill){
 }
 
 function addMonthlyBill(bill){
-  let billDate = Date.parse(bill.date).toString()*1;
+  let billDate = Date.parse(bill.date + adjust).toString()*1;
   while(billDate <= end*1){
     if(billDate >= start*1){
       addToPeriod(bill, billDate);
@@ -102,7 +49,7 @@ function addMonthlyBill(bill){
 }
 
 function addYearlyBill(bill){
-  let billDate = Date.parse(bill.date).toString()*1;
+  let billDate = Date.parse(bill.date + adjust).toString()*1;
   while(billDate <= end*1){
     if(billDate >= start*1){
       addToPeriod(bill, billDate);
@@ -114,14 +61,14 @@ function addYearlyBill(bill){
 }
 
 function addSingleBill(bill){
-  let billDate = Date.parse(bill.date).toString()*1;
+  let billDate = Date.parse(bill.date + adjust).toString()*1;
     if(billDate <= end*1 && billDate >= start*1){
       addToPeriod(bill, billDate);
     }
 }
 
 function addDaySpacedBill(bill){
-  let billDate = Date.parse(bill.date).toString()*1;
+  let billDate = Date.parse(bill.date + adjust).toString()*1;
   while(billDate <= end*1){
     if(billDate >= start*1){
       addToPeriod(bill, billDate);
@@ -139,26 +86,25 @@ function addToPeriod(bill, billDate){
 
 console.log("timePeriod: " + JSON.stringify(timePeriod));
 
-let sortedTimePeriod = ""
-
-let output = "";
-for(let item of timePeriod){
-  let itemDate = new Date(item.date);
-  output += item.name + " " + itemDate + " $" + item.amount;
-  output += "<br><br>"
-}
+function showOutput(){
+  let sortedTimePeriod = timePeriod.sort((a,b)=>a.date*1-b.date*1);
+  let output = "";
+  let total = 0;
+  for(let item of sortedTimePeriod){
+    if(item.income){
+      total += item.amount*1;
+    }else{
+      total -= item.amount*1;
+    }
+    let itemDate = new Date(item.date);
+    output += item.name + " " + months[itemDate.getMonth()] + " " + itemDate.getDate() + " $" + item.amount + " $" + total.toFixed(2);
+    output += "<br><br>"
+  }
   document.getElementById('output').innerHTML = output;
+}
+showOutput();
 
-// function addDays(){
-//   let startDateStr = document.getElementById('startDate').value;
-//   let date = new Date(startDateStr);
-//   let days = document.getElementById('days').value*1;
-//   console.log("days: " + days);
-//   console.log("date.getDate(): " + date.getDate());
-//   let output = "Start Date: " + date.toString();
-//   // output += "<br> Next line:" + Date.parse(date);
-//   date.setDate(date.getDate() + days);
-//   output += "<br> Next line:" + date.toString();
-//   // output += "<br> Next line:" + Date.parse(date);
-//   document.getElementById('output').innerHTML = output;
-// }
+function seeDate(){
+  let chosenDate = document.getElementById("chosenDate").value;
+  console.log("chosenDate: " + chosenDate);
+}
