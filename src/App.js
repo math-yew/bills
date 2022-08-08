@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import Table from './Table';
 import Form from './Form';
-import budget from './budget.js';
+import Service from './service.js';
 
 class App extends Component {
-    state = {
-      ...budget
-    };
+    state = {};
+
+    componentWillMount(){
+      let budget = Service.getBudget();
+      this.setState({...budget})
+    }
+
+    saveBudget(){
+      Service.saveBudget(this.state);
+    }
 
     removeCharacter = index => {
         const { bills } = this.state;
@@ -16,10 +23,12 @@ class App extends Component {
                 return i !== index;
             })
         });
+        this.saveBudget();
     }
 
     handleSubmit = bill => {
         this.setState({bills: [...this.state.bills, bill]});
+        this.saveBudget();
     }
 
     render() {
