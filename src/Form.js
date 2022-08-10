@@ -6,7 +6,10 @@ class Form extends Component {
 
         this.initialState = {
             name: '',
-            amount: ''
+            amount: '',
+            date: '',
+            freq: '',
+            income: ''
         };
 
         this.state = this.initialState;
@@ -22,13 +25,12 @@ class Form extends Component {
 
     onFormSubmit = (event) => {
         event.preventDefault();
-
         this.props.handleSubmit(this.state);
         this.setState(this.initialState);
     }
 
     render() {
-        const { name, amount } = this.state;
+        const { name, amount, date, freq, income } = this.state;
 
         return (
             <form onSubmit={this.onFormSubmit}>
@@ -39,12 +41,33 @@ class Form extends Component {
                     id="name"
                     value={name}
                     onChange={this.handleChange} />
-                <label for="amount">amount</label>
+                <label for="amount">Amount</label>
                 <input
                     type="text"
                     name="amount"
                     id="amount"
                     value={amount}
+                    onChange={this.handleChange} />
+                <label for="amount">Date</label>
+                <input
+                    type="text"
+                    name="date"
+                    id="date"
+                    value={date}
+                    onChange={this.handleChange} />
+                <label for="amount">Frequency</label>
+                <input
+                    type="text"
+                    name="freq"
+                    id="freq"
+                    value={freq}
+                    onChange={this.handleChange} />
+                <label for="amount">Income?</label>
+                <input
+                    type="text"
+                    name="income"
+                    id="income"
+                    value={income}
                     onChange={this.handleChange} />
                 <button type="submit">
                     Submit

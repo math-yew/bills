@@ -12,38 +12,34 @@ class App extends Component {
     }
 
     saveBudget(){
+      console.log("Save Budget:");
+      console.log(this.state);
       Service.saveBudget(this.state);
     }
 
-    removeCharacter = index => {
+    removeBill = index => {
         const { bills } = this.state;
 
         this.setState({
             bills: bills.filter((character, i) => {
                 return i !== index;
             })
-        });
-        this.saveBudget();
+        },this.saveBudget);
     }
 
     handleSubmit = bill => {
-        this.setState({bills: [...this.state.bills, bill]});
-        this.saveBudget();
+        this.setState({bills: [...this.state.bills, bill]},this.saveBudget);
     }
 
     render() {
         const { bills } = this.state;
-        let test = "potato";
         return (
             <div className="container">
-            <p>state: {JSON.stringify(this.state)}</p>
-            <br/>
-            <p>bills: {JSON.stringify(this.state.bills)}</p>
-                  <h1>React Tutorial {this.state.mileStoneDate}</h1>
-                <p>Add a character with a name and a job to the table.</p>
+                <h1>Bills and Expenses</h1>
+                <p>Here's the list of bill and expenses for the budget.</p>
                 <Table
                     bills={bills}
-                    removeCharacter={this.removeCharacter}
+                    removeBill={this.removeBill}
                 />
 
                 <h3>Add New</h3>
