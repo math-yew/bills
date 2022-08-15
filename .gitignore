@@ -1,7 +1,9 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
+/.pnp
+.pnp.js
 
 # testing
 /coverage
@@ -19,3 +21,23 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/src/key.js
+
+
+public/logo192.png
+public/logo512.png
+public/robots.txt
+src/App.test.js
+src/board.js
+src/boards.js
+src/boards0.js
+src/libpic.js
+src/library.js
+src/logo.svg
+src/modal.js
+src/pexpic.js
+src/pic.js
+src/reportWebVitals.js
+src/setupTests.js
+temp.html

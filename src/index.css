@@ -1,7 +1,7 @@
 /*! Primitive
  * A front end Sass boilerplate
  *
- * Author: Tania Rascia 
+ * Author: Tania Rascia
  */
 /* Variables
  * ===============
@@ -236,6 +236,17 @@ h4 {
 
 h5 {
   font-size: 1rem; }
+
+
+
+.navButton {
+  background-color: #8b9b62;
+  border-radius: 0;
+  border: none;
+  margin: 1px;
+
+}
+
 
 @media (min-width: 600px) {
   h1:not(:first-child),

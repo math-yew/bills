@@ -1,6 +1,5 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-const opn = require('opn');
 var sys = require('util')
 var exec = require('child_process').exec;
 var app = module.exports = express();
