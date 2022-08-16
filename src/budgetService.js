@@ -8,9 +8,9 @@ let end = null;
 
 const BudgetService = {
 
-  getTimePeriod: function (){
-    let startDate = "2022-04-27";
-    let endDate = "2022-05-28";
+  getTimePeriod: function (startDate, endDate){
+    // startDate = "2022-04-27";
+    // endDate = "2022-05-28";
     start = Date.parse(startDate + adjust);
     end = Date.parse(endDate + adjust);
     console.log("start: " + start);
@@ -93,22 +93,18 @@ const BudgetService = {
 
   showOutput: function (){
     let sortedTimePeriod = timePeriod.sort((a,b)=>a.date*1-b.date*1);
-    let output = sortedTimePeriod.map((e)=>e);
-    return output;
     let total = 0;
-
-    for(let item of sortedTimePeriod){
-
+    let output = sortedTimePeriod.map((item)=>{
       if(item.income){
         total += item.amount*1;
       }else{
         total -= item.amount*1;
       }
+      item.total = total.toFixed(2);
       let itemDate = new Date(item.date);
-      output += item.name + " " + months[itemDate.getMonth()] + " " + itemDate.getDate() + " $" + item.amount + " $" + total.toFixed(2);
-      output += "<br><br>"
-    }
-    // document.getElementById('output').innerHTML = output;
+      item.prettyDate = months[itemDate.getMonth()] + " " + itemDate.getDate();
+      return item;
+    });
     return output;
   },
 
