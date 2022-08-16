@@ -7,10 +7,28 @@ let start = null;
 let end = null;
 
 const BudgetService = {
+  initialDates: function (){
+    let dates = {};
+    let today = new Date();
+    let year = today.getFullYear();
+    let monthPrep = today.getMonth()*1 + 1;
+    let month = monthPrep<10 ? "0" + monthPrep : monthPrep;
+    let day = today.getDate();
+    let nextMonthDate = new Date(year,monthPrep,day);
+    let nextMonthPrep = nextMonthDate.getMonth()*1 + 1;
+    let nextMonth = nextMonthPrep<10 ? "0" + nextMonthPrep : nextMonthPrep;
+    let nextMonthDay = nextMonthDate.getDate();
+    if(nextMonthDay*1 < day*1){
+      let tempDate = new Date(year,monthPrep*1+1,0);
+      nextMonthDay = tempDate.getDate();
+    }
+    dates.start = year+"-"+month+"-"+day;
+    dates.end = nextMonthDate.getFullYear()+"-"+nextMonth+"-"+nextMonthDay;
+    return dates;
+  },
 
   getTimePeriod: function (startDate, endDate){
-    // startDate = "2022-04-27";
-    // endDate = "2022-05-28";
+    timePeriod = [];
     start = Date.parse(startDate + adjust);
     end = Date.parse(endDate + adjust);
     console.log("start: " + start);
@@ -106,11 +124,6 @@ const BudgetService = {
       return item;
     });
     return output;
-  },
-
-  seeDate: function (){
-    let chosenDate = document.getElementById("chosenDate").value;
-    console.log("chosenDate: " + chosenDate);
   }
 
 }

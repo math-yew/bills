@@ -4,15 +4,11 @@ import ShowTable from './ShowTable';
 import BudgetService from './budgetService';
 
 export default function ShowBudget (props) {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth()*1 + 1;
-    let nextMonth = month + 1;
-    let day = today.getDate();
-    console.log("date: " + today);
+    let initalDates = BudgetService.initialDates();
+
     const [budgetData, setBudgetData] = useState([]);
-    const [startTime, setStartTime] = useState(year+"-"+month+"-"+day);
-    const [endTime, setEndTime] = useState(year+"-"+nextMonth+"-"+day);
+    const [startTime, setStartTime] = useState(initalDates.start);
+    const [endTime, setEndTime] = useState(initalDates.end);
 
     function getTimePeriod(){
       let budgetArr = BudgetService.getTimePeriod(startTime, endTime);
@@ -22,12 +18,13 @@ export default function ShowBudget (props) {
     return(
       <div>
         <h1>Budget</h1>
-        <label>Start Time</label>
-        <input type="date" value={startTime} onChange={e => setStartTime(e.target.value)} />
-        {startTime}
-        <label>End Time</label>
-        <input type="date" value={endTime} onChange={e => setEndTime(e.target.value)} />
-        {endTime}
+        <p>
+          Start Time
+          <input className="dateInput" type="date" value={startTime} onChange={e => setStartTime(e.target.value)} />
+
+          End Time
+          <input className="dateInput" type="date" value={endTime} onChange={e => setEndTime(e.target.value)} />
+        </p>
         <button onClick={getTimePeriod}>getTimePeriod</button>
         <ShowTable
             budgetData={budgetData}

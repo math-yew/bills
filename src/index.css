@@ -668,6 +668,14 @@ caption {
 .contain-table {
   overflow-x: auto; }
 
+.dateInput {
+  width: 30%;
+}
+
+.contentSpace{
+  padding: 40px;
+}
+
 @media (min-width: 600px) {
   .contain-table {
     width: 100%; } }

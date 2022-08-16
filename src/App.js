@@ -8,7 +8,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Nav />
-        <Outlet />
+        <div className="contentSpace">
+          <Outlet />
+        </div>
       </header>
     </div>
   );
