@@ -34,7 +34,7 @@ const BudgetService = {
     console.log("start: " + start);
     console.log("end: " + end);
     for(let bill of budget.bills){
-      console.log("bill: " + bill);
+      console.log("bill: " + bill.name);
       this.addBill(bill);
     }
     let output = this.showOutput();
@@ -112,6 +112,7 @@ const BudgetService = {
   showOutput: function (){
     let sortedTimePeriod = timePeriod.sort((a,b)=>a.date*1-b.date*1);
     let total = 0;
+    total=budget.mileStoneAmount;
     let output = sortedTimePeriod.map((item)=>{
       if(item.income){
         total += item.amount*1;

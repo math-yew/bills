@@ -9,7 +9,8 @@ class Form extends Component {
             amount: '',
             date: '',
             freq: '',
-            income: ''
+            income: '',
+            disable: false
         };
 
         this.state = this.initialState;
@@ -50,7 +51,7 @@ class Form extends Component {
                     onChange={this.handleChange} />
                 <label for="amount">Date</label>
                 <input
-                    type="text"
+                    type="date"
                     name="date"
                     id="date"
                     value={date}
@@ -64,11 +65,12 @@ class Form extends Component {
                     onChange={this.handleChange} />
                 <label for="amount">Income?</label>
                 <input
-                    type="text"
+                    type="checkbox"
                     name="income"
                     id="income"
-                    value={income}
+                    value="true"
                     onChange={this.handleChange} />
+                <br />
                 <button type="submit">
                     Submit
                 </button>

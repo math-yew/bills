@@ -240,13 +240,17 @@ h5 {
 
 
 .navButton {
-  background-color: #8b9b62;
+  background-color: #35a;
   border-radius: 0;
   border: none;
   margin: 1px;
 
 }
 
+
+.navDiv {
+  background-color: #35a;
+}
 
 @media (min-width: 600px) {
   h1:not(:first-child),
@@ -502,8 +506,8 @@ dd {
   line-height: 1; }
 
 .button:hover, a.button:hover, button:hover, [type=submit]:hover, [type=reset]:hover, [type=button]:hover {
-  border: 1px solid #0250bc;
-  background: #0250bc;
+  border: 1px solid #006eff;
+  background: #006eff;
   color: #ffffff;
   text-decoration: none; }
 
