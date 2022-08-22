@@ -17,6 +17,13 @@ class Bills extends Component {
       Service.saveBudget(this.state);
     }
 
+    updateReserve= event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name] : value
+        });
+    }
+
     removeBill = index => {
         const { bills } = this.state;
 
@@ -32,10 +39,25 @@ class Bills extends Component {
     }
 
     render() {
-        const { bills } = this.state;
+        const { bills, mileStoneAmount, mileStoneDate } = this.state;
         return (
             <div className="container">
                 <h1>Bills and Expenses</h1>
+                <label for="mileStoneAmount">Latest Amount: </label>
+                <input
+                    type="text"
+                    name="mileStoneAmount"
+                    id="mileStoneAmount"
+                    value={mileStoneAmount}
+                    onChange={this.updateReserve}/>
+                <label for="mileStoneAmount">Date: </label>
+                <input
+                    type="date"
+                    name="mileStoneDate"
+                    id="mileStoneDate"
+                    value={mileStoneDate}
+                    onChange={this.updateReserve} />
+                <button onClick={() => this.saveBudget()}>Update </button>
                 <p>Here's the list of bill and expenses for the budget.</p>
                 <Table
                     bills={bills}
