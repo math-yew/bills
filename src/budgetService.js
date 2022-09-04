@@ -13,7 +13,8 @@ const BudgetService = {
     let year = today.getFullYear();
     let monthPrep = today.getMonth()*1 + 1;
     let month = monthPrep<10 ? "0" + monthPrep : monthPrep;
-    let day = today.getDate();
+    let dayPrep = today.getDate();
+    let day = dayPrep<10 ? "0" + dayPrep : dayPrep;
     let nextMonthDate = new Date(year,monthPrep,day);
     let nextMonthPrep = nextMonthDate.getMonth()*1 + 1;
     let nextMonth = nextMonthPrep<10 ? "0" + nextMonthPrep : nextMonthPrep;
@@ -22,6 +23,7 @@ const BudgetService = {
       let tempDate = new Date(year,monthPrep*1+1,0);
       nextMonthDay = tempDate.getDate();
     }
+    nextMonthDay = nextMonthDay<10 ? "0" + nextMonthDay : nextMonthDay;
     dates.start = year+"-"+month+"-"+day;
     dates.end = nextMonthDate.getFullYear()+"-"+nextMonth+"-"+nextMonthDay;
     return dates;
@@ -29,12 +31,12 @@ const BudgetService = {
 
   getTimePeriod: function (startDate, endDate){
     timePeriod = [];
-    start = Date.parse(startDate + adjust);
+    // start = Date.parse(startDate + adjust);
+    start = Date.parse(budget.mileStoneDate + adjust);
     end = Date.parse(endDate + adjust);
     console.log("start: " + start);
     console.log("end: " + end);
     for(let bill of budget.bills){
-      console.log("bill: " + bill.name);
       this.addBill(bill);
     }
     let output = this.showOutput();
@@ -96,6 +98,7 @@ const BudgetService = {
     let billDate = Date.parse(bill.date + adjust).toString()*1;
     while(billDate <= end*1){
       if(billDate >= start*1){
+        console.log(bill + "::: " + billDate);
         this.addToPeriod(bill, billDate);
       }
       billDate += bill.freq*24*3600*1000;
@@ -110,9 +113,14 @@ const BudgetService = {
   },
 
   showOutput: function (){
+    let purchases = this.addPurchases();
+    timePeriod.push(purchases);
+    timePeriod.map((e)=>console.log(e.date+": " + e.name));
+    console.log("----------------------------------");
     let sortedTimePeriod = timePeriod.sort((a,b)=>a.date*1-b.date*1);
+    sortedTimePeriod.map((e)=>console.log(e.date+": " + e.name));
     let total = 0;
-    total=budget.mileStoneAmount;
+    total=budget.mileStoneAmount*1;
     let output = sortedTimePeriod.map((item)=>{
       if(item.income){
         total += item.amount*1;
@@ -125,6 +133,21 @@ const BudgetService = {
       return item;
     });
     return output;
+  },
+
+  addPurchases:function(){
+    let purchaseTotal = budget.purchases.reduce((a,b)=>a.amount+b.amount)*1;
+    let initialDates = this.initialDates();
+    let today = Date.parse(initialDates.start + adjust).toString()*1;
+
+    return{
+      "name":"Needs",
+      "amount":purchaseTotal.toFixed(2),
+      "date":today,
+      "freq":"s",
+      "income":"",
+      "disable":false
+    }
   }
 
 }

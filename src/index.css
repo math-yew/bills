@@ -678,6 +678,24 @@ caption {
 
 .contentSpace{
   padding: 40px;
+  box-sizing: border-box;
+}
+
+.mainColumn{
+  box-sizing: border-box;
+  width: 70%;
+  float:left;
+}
+
+.purchaseColumn{
+  box-sizing: border-box;
+  width: 30%;
+  float:left;
+}
+
+.textSpace{
+  display: inline-block;
+  width:150px;
 }
 
 @media (min-width: 600px) {
