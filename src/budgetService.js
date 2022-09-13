@@ -5,6 +5,7 @@ const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 let timePeriod = [];
 let start = null;
 let end = null;
+let currentDay;
 
 const BudgetService = {
   initialDates: function (){
@@ -26,12 +27,13 @@ const BudgetService = {
     nextMonthDay = nextMonthDay<10 ? "0" + nextMonthDay : nextMonthDay;
     dates.start = year+"-"+month+"-"+day;
     dates.end = nextMonthDate.getFullYear()+"-"+nextMonth+"-"+nextMonthDay;
+    currentDay = new Date(dates.start+adjust);
+    console.log("currentDay" + currentDay);
     return dates;
   },
 
   getTimePeriod: function (startDate, endDate){
     timePeriod = [];
-    // start = Date.parse(startDate + adjust);
     start = Date.parse(budget.mileStoneDate + adjust);
     end = Date.parse(endDate + adjust);
     console.log("start: " + start);
@@ -98,7 +100,6 @@ const BudgetService = {
     let billDate = Date.parse(bill.date + adjust).toString()*1;
     while(billDate <= end*1){
       if(billDate >= start*1){
-        console.log(bill + "::: " + billDate);
         this.addToPeriod(bill, billDate);
       }
       billDate += bill.freq*24*3600*1000;
@@ -114,29 +115,40 @@ const BudgetService = {
 
   showOutput: function (){
     let purchases = this.addPurchases();
-    timePeriod.push(purchases);
-    timePeriod.map((e)=>console.log(e.date+": " + e.name));
-    console.log("----------------------------------");
+    if(!!purchases){
+      console.log("purchases: " + JSON.stringify(purchases));
+      timePeriod.push(purchases);
+    }
     let sortedTimePeriod = timePeriod.sort((a,b)=>a.date*1-b.date*1);
-    sortedTimePeriod.map((e)=>console.log(e.date+": " + e.name));
+    // sortedTimePeriod.map((e)=>console.log(e.date+": " + e.name));
     let total = 0;
     total=budget.mileStoneAmount*1;
+    console.log("first total: " + total);
     let output = sortedTimePeriod.map((item)=>{
       if(item.income){
-        total += item.amount*1;
+        let itemAmount = item.amount;
+        let amount = isNaN(itemAmount) ? 0 : itemAmount;
+        total += amount*1;
       }else{
-        total -= item.amount*1;
+        let itemAmount = item.amount;
+        let amount = isNaN(itemAmount) ? 0 : itemAmount;
+        total -= amount*1;
       }
       item.total = total.toFixed(2);
       let itemDate = new Date(item.date);
       item.prettyDate = months[itemDate.getMonth()] + " " + itemDate.getDate();
+      item.past = itemDate < currentDay;
       return item;
     });
     return output;
   },
 
   addPurchases:function(){
-    let purchaseTotal = budget.purchases.reduce((a,b)=>a.amount+b.amount)*1;
+    let purchases = budget.purchases;
+    if(purchases.length == 0) return;
+    console.log("PURCHASES: " +  JSON.stringify(purchases));
+    let purchaseTotal = (purchases.length > 1) ? purchases.reduce((a,b)=>a.amount*1+b.amount*1)*1 : purchases[0].amount*1;
+    console.log("purchaseTotal: " + purchaseTotal);
     let initialDates = this.initialDates();
     let today = Date.parse(initialDates.start + adjust).toString()*1;
 

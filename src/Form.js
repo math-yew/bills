@@ -32,6 +32,10 @@ class Form extends Component {
 
     render() {
         const { name, amount, date, freq, income } = this.state;
+        let editBill = this.props.editBill;
+        if(!!editBill){
+          this.setState(editBill);
+        }
 
         return (
             <form onSubmit={this.onFormSubmit}>

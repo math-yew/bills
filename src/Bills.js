@@ -36,15 +36,23 @@ class Bills extends Component {
         },this.saveBudget);
     }
 
-      removePurchase = index => {
-          const { purchases } = this.state;
+    changeBill = index => {
+        const { bills } = this.state;
+        this.setState({
+          index: index,
+          editBill: bills[index]
+        })
+    }
 
-          this.setState({
-              purchases: purchases.filter((character, i) => {
-                  return i !== index;
-              })
-          },this.saveBudget);
-      }
+    removePurchase = index => {
+        const { purchases } = this.state;
+
+        this.setState({
+            purchases: purchases.filter((character, i) => {
+                return i !== index;
+            })
+        },this.saveBudget);
+    }
 
     handleSubmit = bill => {
         this.setState({bills: [...this.state.bills, bill]},this.saveBudget);
@@ -55,19 +63,19 @@ class Bills extends Component {
     }
 
     render() {
-        const { bills, mileStoneAmount, mileStoneDate, purchases } = this.state;
+        const { bills, mileStoneAmount, mileStoneDate, purchases, editBill } = this.state;
         return (
             <div className="container">
               <div className="mainColumn">
                   <h1>Bills and Expenses</h1>
-                  <label for="mileStoneAmount">Latest Amount: </label>
+                  <label htmlFor="mileStoneAmount">Latest Amount: </label>
                   <input
                       type="text"
                       name="mileStoneAmount"
                       id="mileStoneAmount"
                       value={mileStoneAmount}
                       onChange={this.updateReserve}/>
-                  <label for="mileStoneAmount">Date: </label>
+                  <label htmlFor="mileStoneAmount">Date: </label>
                   <input
                       type="date"
                       name="mileStoneDate"
@@ -79,10 +87,11 @@ class Bills extends Component {
                   <Table
                       bills={bills}
                       removeBill={this.removeBill}
+                      changeBill={this.changeBill}
                   />
 
                   <h3>Add New</h3>
-                  <Form handleSubmit={this.handleSubmit} />
+                  <Form editBill={editBill} handleSubmit={this.handleSubmit} />
               </div>
               <div className="purchaseColumn">
                 <Purchases
