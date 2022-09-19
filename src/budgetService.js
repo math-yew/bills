@@ -146,8 +146,10 @@ const BudgetService = {
   addPurchases:function(){
     let purchases = budget.purchases;
     if(purchases.length == 0) return;
-    console.log("PURCHASES: " +  JSON.stringify(purchases));
-    let purchaseTotal = (purchases.length > 1) ? purchases.reduce((a,b)=>a.amount*1+b.amount*1)*1 : purchases[0].amount*1;
+    console.log("PURCHASES ("+purchases.length+")" +  JSON.stringify(purchases));
+    let purchaseTotal = (purchases.length > 1) ? Object.values(purchases).reduce((t, {amount}) => t*1 + amount*1, 0) : purchases[0].amount*1;
+    // let purchaseTotal = (purchases.length > 1) ? purchases.reduce((a,b)=>a.amount*1+b.amount*1)*1 : purchases[0].amount*1;
+    // let purchaseTotal = (purchases.length > 1) ? purchases.reduce((a,b)=>{let x = a*1+b.amount*1;console.log(a,b.amount,x);return x;})*1 : purchases[0].amount*1;
     console.log("purchaseTotal: " + purchaseTotal);
     let initialDates = this.initialDates();
     let today = Date.parse(initialDates.start + adjust).toString()*1;

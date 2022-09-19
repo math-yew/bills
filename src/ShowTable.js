@@ -15,7 +15,11 @@ const TableHeader = () => {
 
 const TableBody = props => {
     const rows = props.budgetData.map((row, index) => {
-      let color = row.past ? "#ddd" : "#fff";
+      let color1 = row.past ? "#ddd" : "#fff";
+      let color2 = row.name == "Needs" ? "#ddf" : color1;
+      let color = row.income ? "#dfd" : color2;
+      let color3 = row.income ? "#0c0" : "#000";
+      let fontColor = {color: color3};
       let background = {backgroundColor: color};
       if(row.name=="Needs" && (row.amount == 0 || row.amount == "NaN")){
         console.log("NO NEEDS");
@@ -24,7 +28,7 @@ const TableBody = props => {
         return (
             <tr key={index} style={background}>
                 <td> {row.name}</td>
-                <td>{row.amount}</td>
+                <td style={fontColor}>{row.amount}</td>
                 <td>{row.prettyDate}</td>
                 <td>{row.total}</td>
             </tr>
