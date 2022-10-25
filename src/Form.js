@@ -12,13 +12,19 @@ class Form extends Component {
             income: '',
             disable: false
         };
-
         this.state = this.initialState;
+    }
+
+    componentDidUpdate(prevProps) {
+      if(!this.props.showEdit && (this.props.showEdit !== prevProps.showEdit)){
+        this.setState({...this.initialState});
+      } else if (this.props.editRecord.name !== prevProps.editRecord.name) {
+          this.setState({...this.props.editRecord});
+        }
     }
 
     handleChange = event => {
         const { name, value } = event.target;
-
         this.setState({
             [name] : value
         });
@@ -28,6 +34,7 @@ class Form extends Component {
         event.preventDefault();
         this.props.handleSubmit(this.state);
         this.setState(this.initialState);
+        this.props.showModal();
     }
 
     render() {
@@ -38,36 +45,39 @@ class Form extends Component {
         }
 
         return (
+          <div className="modalSpace" style={{display:this.props.show}}>
+            <h1 className="modalExist" onClick={() => this.props.showModal()}>X</h1>
+            <h3>Add New</h3>
             <form onSubmit={this.onFormSubmit}>
-                <label for="name">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                     type="text"
                     name="name"
                     id="name"
                     value={name}
                     onChange={this.handleChange} />
-                <label for="amount">Amount</label>
+                <label htmlFor="amount">Amount</label>
                 <input
                     type="text"
                     name="amount"
                     id="amount"
                     value={amount}
                     onChange={this.handleChange} />
-                <label for="amount">Date</label>
+                <label htmlFor="amount">Date</label>
                 <input
                     type="date"
                     name="date"
                     id="date"
                     value={date}
                     onChange={this.handleChange} />
-                <label for="amount">Frequency</label>
+                <label htmlFor="amount">Frequency</label>
                 <input
                     type="text"
                     name="freq"
                     id="freq"
                     value={freq}
                     onChange={this.handleChange} />
-                <label for="amount">Income?</label>
+                <label htmlFor="amount">Income?</label>
                 <input
                     type="checkbox"
                     name="income"
@@ -76,9 +86,10 @@ class Form extends Component {
                     onChange={this.handleChange} />
                 <br />
                 <button type="submit">
-                    Submit
+                    {this.props.showEdit ? "Update" : "Submit"}
                 </button>
             </form>
+          </div>
         );
     }
 }

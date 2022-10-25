@@ -31,14 +31,14 @@ class PurchaseForm extends Component {
 
         return (
             <form onSubmit={this.onFormSubmit}>
-                <label for="name">Name</label>
+                <label htmlFor="name">Name</label>
                 <input
                     type="text"
                     name="name"
                     id="name"
                     value={name}
                     onChange={this.handleChange} />
-                <label for="amount">Amount</label>
+                <label htmlFor="amount">Amount</label>
                 <input
                     type="text"
                     name="amount"
