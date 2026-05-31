@@ -102,8 +102,6 @@ class Bills extends Component {
             <div className="container">
               <div className="mainColumn">
                   <h1>Bills and Expenses</h1>
-                  <h1>show: {show.toString()}</h1>
-                  <h1>{JSON.stringify(this.showEdit)} showEdit: {showEdit.toString()}</h1>
 
                   <label htmlFor="mileStoneAmount">Latest Amount: </label>
                   <input
